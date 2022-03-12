@@ -1,10 +1,10 @@
-package ru.telegram.rzdbot;
+package ru.telegram.bot;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RzdBotApplicationTests {
+class TelegramBotApplicationTests {
 
     @Test
     void contextLoads() {

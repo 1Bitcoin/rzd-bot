@@ -1,13 +1,13 @@
-package ru.telegram.rzdbot;
+package ru.telegram.bot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RzdBotApplication {
+public class TelegramBotApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(RzdBotApplication.class, args);
+        SpringApplication.run(TelegramBotApplication.class, args);
     }
 
 }
