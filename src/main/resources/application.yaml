@@ -1,0 +1,8 @@
+telegram:
+  bot:
+    name: ${rzd.bot.name.value}
+    token: ${rzd.bot.token.value}
+
+server:
+  port: 8081
+
