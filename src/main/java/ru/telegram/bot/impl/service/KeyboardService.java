@@ -1,10 +1,6 @@
 package ru.telegram.bot.impl.service;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.FieldDefaults;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import ru.telegram.bot.impl.commands.Commands;
@@ -12,6 +8,7 @@ import ru.telegram.bot.impl.commands.Commands;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class KeyboardService {
     public static final InlineKeyboardMarkup startScreen = new InlineKeyboardMarkup();
 
@@ -48,6 +45,10 @@ public class KeyboardService {
         startScreenKeyboardButtons.add(keyboardButtonsRow3);
 
         startScreen.setKeyboard(startScreenKeyboardButtons);
+    }
+
+    public static InlineKeyboardMarkup getStartScreen() {
+        return startScreen;
     }
 }
 

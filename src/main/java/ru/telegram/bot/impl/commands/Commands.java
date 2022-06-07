@@ -1,12 +1,12 @@
 package ru.telegram.bot.impl.commands;
 
 public enum Commands {
-    SEARCH("SearchState"),
-    START("StartState"),
-    SUBSCRIPTIONS("SubscriptionsState"),
-    HELP("HelpState");
+    SEARCH("/search"),
+    START("/start"),
+    SUBSCRIPTIONS("/subscribe"),
+    HELP("/help");
 
-    private String command;
+    private final String command;
 
     Commands(String command) {
         this.command = command;

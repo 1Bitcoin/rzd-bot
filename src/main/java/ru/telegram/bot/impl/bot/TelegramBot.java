@@ -1,43 +1,53 @@
 package ru.telegram.bot.impl.bot;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.telegram.bot.impl.facade.MessageResponseFacade;
+import ru.telegram.bot.exception.BusinessException;
+import ru.telegram.bot.impl.service.ContextService;
+import ru.telegram.bot.impl.service.OrchestrationRequestService;
 import ru.telegram.bot.impl.service.RequestParseService;
+
+/**
+ * Реализация API Telegram бота для получения запросов пользователя.
+ */
 
 @Slf4j
 @Getter
 @Setter
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@Component
 public class TelegramBot extends TelegramLongPollingBot {
 
+    @Value("${rzd.bot.name.value}")
     private String name;
-    private String token;
-    private final MessageResponseFacade messageResponseFacade;
-    private final RequestParseService requestParseService;
 
-    public TelegramBot(MessageResponseFacade messageResponseFacade, RequestParseService requestParseService) {
-        this.messageResponseFacade = messageResponseFacade;
-        this.requestParseService = requestParseService;
+    @Value("${rzd.bot.token.value}")
+    private String token;
+
+    private final OrchestrationRequestService orchestrationRequestService;
+
+    public TelegramBot(OrchestrationRequestService orchestrationRequestService) {
+        this.orchestrationRequestService = orchestrationRequestService;
     }
 
     @Override
     public void onUpdateReceived(Update update) {
         try {
-            SendMessage sendMessage = messageResponseFacade.handleUpdate(update);
+            SendMessage sendMessage = orchestrationRequestService.orchestrationRequest(update);
             execute(sendMessage);
-            log.info("Отправлен ответ пользователю {} сообщение {}",
-                    requestParseService.getChatId(update), requestParseService.getMessage(update));
+            log.info("Отправлен ответ пользователю {} сообщение {}", sendMessage.getChatId(), sendMessage.getText());
+
+        } catch (BusinessException e) {
+            // сделать обертку - сервис на тех перерыве
+            throw new RuntimeException(e);
         } catch (TelegramApiException | NullPointerException e) {
-            log.error("Возникло исключение при отправке ответа пользователю {} сообщения {}",
-                    requestParseService.getChatId(update), requestParseService.getMessage(update));
+            log.error("Возникло исключение при отправке пользователю {} сообщения {}");
             log.error(e.getMessage());
             e.printStackTrace();
         }

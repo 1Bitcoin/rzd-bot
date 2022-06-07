@@ -8,7 +8,7 @@ import ru.telegram.bot.impl.bot.context.UserContext;
 
 @Slf4j
 @Component
-public class HelpState implements State {
+public class SubscribeState implements State {
 
     @Override
     public SendMessage show(UserContext context) {
@@ -16,7 +16,7 @@ public class HelpState implements State {
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(context.getChatId());
-        sendMessage.setText("Вы нажали на ПОМОЩЬ");
+        sendMessage.setText("Вы нажали на ПОДПИСКИ");
 
         return sendMessage;
     }
