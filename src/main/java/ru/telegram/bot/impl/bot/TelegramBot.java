@@ -9,10 +9,8 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.telegram.bot.exception.BusinessException;
-import ru.telegram.bot.impl.service.ContextService;
+import ru.telegram.bot.impl.exception.BusinessException;
 import ru.telegram.bot.impl.service.OrchestrationRequestService;
-import ru.telegram.bot.impl.service.RequestParseService;
 
 /**
  * Реализация API Telegram бота для получения запросов пользователя.

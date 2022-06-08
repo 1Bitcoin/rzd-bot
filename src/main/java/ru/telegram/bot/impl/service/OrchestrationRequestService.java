@@ -3,15 +3,14 @@ package ru.telegram.bot.impl.service;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.telegram.bot.api.state.State;
-import ru.telegram.bot.exception.BusinessException;
-import ru.telegram.bot.exception.IncorrectRequestException;
+import ru.telegram.bot.impl.exception.BusinessException;
+import ru.telegram.bot.impl.exception.IncorrectChatIdException;
 import ru.telegram.bot.impl.bot.context.UserContext;
-import ru.telegram.bot.impl.reflection.StateClassBuilder;
+import ru.telegram.bot.impl.handler.MessageHandler;
 
 /**
  * Основной сервис обработки запросов от пользователя
@@ -25,55 +24,42 @@ public class OrchestrationRequestService {
 
     private final ContextService contextService;
     private final RequestParseService requestParseService;
-    private final ApplicationContext context;
-    private final StateClassBuilder stateClassBuilder;
+    private final MessageHandler messageHandler;
 
     public OrchestrationRequestService(ContextService contextService, RequestParseService requestParseService,
-                                       ApplicationContext context, StateClassBuilder stateClassBuilder) {
+                                       MessageHandler messageHandler) {
 
         this.contextService = contextService;
         this.requestParseService = requestParseService;
-        this.context = context;
-        this.stateClassBuilder = stateClassBuilder;
+        this.messageHandler = messageHandler;
     }
 
     public SendMessage orchestrationRequest(Update update) throws BusinessException {
 
         // 0. Извлечь данные из полученного запроса
         String chatId = requestParseService.getChatId(update);
-        String message = requestParseService.getMessage(update);
+        Message message = requestParseService.getMessage(update);
 
         if (chatId == null) {
             log.error("Параметр chatId равен null, невозможно идентифицировать клиента");
-            throw new IncorrectRequestException("Получено недопустимое значение параметра chatId");
+            throw new IncorrectChatIdException("Получено недопустимое значение параметра chatId");
         }
 
-
-        // 1. Получить контекст пользователя, если он есть,иначе будет сохранен текущий контекст.
+        // 1. Получить контекст пользователя, если он есть, иначе будет сохранен текущий контекст.
         UserContext userContext = contextService.getUserContext(chatId);
 
         if (userContext == null) {
-            userContext = contextService.setUserContext(chatId);
+            userContext = contextService.createUserContext(chatId);
             log.info("Создан контекст для пользователя {}", chatId);
         }
 
-         // 2. Парсинг полученного сообщения - это команда или текст.
-        if (requestParseService.isCommand(update)) {
-            String stateName = requestParseService.getStateName(update);
+         // 2. Парсинг полученного сообщения
+        if (requestParseService.hasCallbackQuery(update)) {
 
-            userContext.setStateName(stateName);
-            log.info("Получено имя state {} из команды {}", stateName, message);
-
-        } else if (requestParseService.hasTextMessage(update)) {
-            contextService.updateUserContext(userContext, requestParseService.getMessage(update));
-            log.info("Получено сообщение {}", message);
+        } else {
+            messageHandler.processMessage(message, userContext);
         }
 
-
-         // 3. Получить класс-состояние для текущей команды и отрисовать.
-        Class<?> clazz = stateClassBuilder.getClassByName(userContext.getStateName());
-        State state = (State) context.getBean(clazz);
-
-        return state.show(userContext);
+        return userContext.getState().show(userContext);
     }
 }

@@ -34,7 +34,7 @@ public class ContextService {
         userContext.setMessage(message);
     }
 
-    public UserContext setUserContext(String chatId) {
+    public UserContext createUserContext(String chatId) {
         var userContext = new UserContext(chatId);
         cacheContext.put(chatId, userContext);
 

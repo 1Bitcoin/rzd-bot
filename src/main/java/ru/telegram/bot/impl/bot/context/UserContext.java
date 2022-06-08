@@ -15,6 +15,7 @@ import ru.telegram.bot.impl.state.StartState;
 @Setter
 public class UserContext {
     private String stateName;
+    private State state;
 
     private String chatId;
     private String message;

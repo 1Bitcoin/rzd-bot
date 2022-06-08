@@ -2,9 +2,10 @@ package ru.telegram.bot.impl.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.telegram.bot.exception.IncorrectStateException;
+import ru.telegram.bot.impl.exception.IncorrectStateException;
 
 import java.util.Optional;
 
@@ -21,14 +22,8 @@ public class RequestParseService {
         return null;
     }
 
-    public String getMessage(Update update) {
-        if (update.hasMessage() && update.getMessage().hasText()) {
-            return update.getMessage().getText();
-        } else if (update.hasCallbackQuery()) {
-            return update.getCallbackQuery().getData();
-        }
-
-        return null;
+    public Message getMessage(Update update) {
+        return update.getMessage();
     }
 
     /**
@@ -38,6 +33,10 @@ public class RequestParseService {
      */
     public Boolean isCommand(Update update) {
         return update.hasMessage() && update.getMessage().hasEntities() || update.hasCallbackQuery();
+    }
+
+    public Boolean hasCallbackQuery(Update update) {
+        return update.hasCallbackQuery();
     }
 
     /**
