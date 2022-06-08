@@ -24,10 +24,10 @@ import ru.telegram.bot.impl.service.RequestParseService;
 @Component
 public class TelegramBot extends TelegramLongPollingBot {
 
-    @Value("${rzd.bot.name.value}")
+    @Value("${telegram.bot.name}")
     private String name;
 
-    @Value("${rzd.bot.token.value}")
+    @Value("${telegram.bot.token}")
     private String token;
 
     private final OrchestrationRequestService orchestrationRequestService;
