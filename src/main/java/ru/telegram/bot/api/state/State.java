@@ -1,7 +1,8 @@
 package ru.telegram.bot.api.state;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import ru.telegram.bot.impl.bot.context.UserContext;
+import ru.telegram.bot.api.context.Context;
+import ru.telegram.bot.impl.context.UserContext;
 
 /**
  * Интерфейс описывает состояние, в котором находится пользователь и возможные переходы из него
@@ -19,5 +20,5 @@ public interface State {
      * @param context пользовательский контекст
      * @return сообщение на фронт
      */
-    SendMessage show(UserContext context);
+    SendMessage show(Context context);
 }

@@ -1,17 +1,16 @@
-package ru.telegram.bot.impl.state;
+package ru.telegram.bot.impl.state.help;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import ru.telegram.bot.api.context.Context;
 import ru.telegram.bot.api.state.State;
-import ru.telegram.bot.impl.bot.context.UserContext;
+import ru.telegram.bot.impl.context.UserContext;
 import ru.telegram.bot.impl.pl.KeyboardMenu;
-import ru.telegram.bot.impl.pl.KeyboardService;
 
 @Slf4j
 @Component
-public class StartState implements State {
+public class HelpState implements State {
 
     @Override
     public Boolean isRequiredInformation() {
@@ -19,11 +18,12 @@ public class StartState implements State {
     }
 
     @Override
-    public SendMessage show(UserContext context) {
-        log.info("Пользователь {} находится в {}", context.getChatId(), context.getStateName());
+    public SendMessage show(Context context) {
+        log.info("Пользователь {} находится в состоянии {}", context.getChatId(), context.getState().toString());
+
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(context.getChatId());
-        sendMessage.setText("Вы находитесь в стартовом состоянии");
+        sendMessage.setText("Вы нажали на ПОМОЩЬ");
         sendMessage.setReplyMarkup(KeyboardMenu.getMainMenuKeyboard());
 
         return sendMessage;
