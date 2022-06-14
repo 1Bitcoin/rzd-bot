@@ -3,8 +3,8 @@ package ru.telegram.bot.impl.state.search;
 import lombok.Getter;
 import ru.telegram.bot.impl.state.search.date.InputDateState;
 import ru.telegram.bot.impl.state.search.date.ProcessingDateState;
-import ru.telegram.bot.impl.state.search.direction.ProcessingDirectionState;
-import ru.telegram.bot.impl.state.search.direction.InputDirectionState;
+import ru.telegram.bot.impl.state.search.direction.ProcessingRouteState;
+import ru.telegram.bot.impl.state.search.direction.InputRouteState;
 import ru.telegram.bot.impl.state.search.status.InputTrainState;
 import ru.telegram.bot.impl.state.search.status.ProcessingTrainState;
 
@@ -12,8 +12,8 @@ import ru.telegram.bot.impl.state.search.status.ProcessingTrainState;
 public enum SearchTransition {
     SEARCH_STATE(SearchState.class),
 
-    INPUT_DIRECTION_STATE(InputDirectionState.class),
-    PROCESSING_DIRECTION_STATE(ProcessingDirectionState.class),
+    INPUT_ROUTE_STATE(InputRouteState.class),
+    PROCESSING_ROUTE_STATE(ProcessingRouteState.class),
 
     INPUT_DATE_STATE(InputDateState.class),
     PROCESSING_DATE_STATE(ProcessingDateState.class),

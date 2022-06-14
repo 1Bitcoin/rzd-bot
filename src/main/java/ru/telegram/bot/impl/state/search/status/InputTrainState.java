@@ -34,7 +34,7 @@ public class InputTrainState implements State {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(context.getChatId());
         sendMessage.setText(String.format("Выполняется поиск направлений по вашему запросу: От %s до %s. Дата: %s",
-                draft.getFrom(), draft.getTo(), draft.getDate()));
+                draft.getRoute().getFrom(), draft.getRoute().getTo(), draft.getDate()));
         sendMessage.setReplyMarkup(KeyboardMenu.getMainMenuKeyboard());
 
         log.info("Состояние {} сформировало ответ пользователю {}", SearchTransition.INPUT_TRAIN_STATE.getState(), context.getChatId());

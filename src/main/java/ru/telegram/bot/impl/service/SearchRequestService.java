@@ -3,6 +3,8 @@ package ru.telegram.bot.impl.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -17,6 +19,9 @@ public class SearchRequestService {
     }
 
     public List<String> parseDirection(String direction) {
-        return List.of(direction.split("-"));
+        // Сделать на стримах
+        List<String> list = Arrays.asList((direction.split("-")));
+        list.replaceAll(String::toUpperCase);
+        return list;
     }
 }

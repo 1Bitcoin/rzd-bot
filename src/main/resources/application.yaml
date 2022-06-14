@@ -6,3 +6,10 @@ telegram:
 server:
   port: 8081
 
+rzd:
+  api:
+    search:
+      station:
+        code: https://pass.rzd.ru/suggester?stationNamePart={stationName}&lang=ru&compactMode=y&rid={rid}&SESSION_ID={sid}
+
+

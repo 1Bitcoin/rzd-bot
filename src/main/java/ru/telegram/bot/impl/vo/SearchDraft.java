@@ -1,22 +1,17 @@
 package ru.telegram.bot.impl.vo;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import ru.telegram.bot.api.vo.Draft;
 
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 public class SearchDraft implements Draft {
     // Дата отправления
     private String date;
 
-    // Место отправления
-    private String from;
-
-    // Место назначения
-    private String to;
+    // Маршрут
+    private Route route;
 
     // Интересующие места
     private List<CarType> seats;

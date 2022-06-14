@@ -23,7 +23,7 @@ class SearchRequestServiceTest {
     void parseDirection() {
         // given
         String direction = "Москва-Саратов";
-        List<String> expectedList = Arrays.asList("Москва", "Саратов");
+        List<String> expectedList = Arrays.asList("МОСКВА", "САРАТОВ");
 
         // when
         List<String> actualList = searchRequestService.parseDirection(direction);

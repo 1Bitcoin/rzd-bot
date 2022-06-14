@@ -4,16 +4,14 @@ import lombok.SneakyThrows;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import ru.telegram.bot.api.state.State;
-import ru.telegram.bot.impl.state.search.direction.InputDirectionState;
+import ru.telegram.bot.impl.state.search.direction.InputRouteState;
 
 @Component
 public class StateBuilder {
 
-    private final String packageName = "ru.telegram.bot.impl.state.";
-    private final String startStateName = "StartState";
+    private final static String packageName = "ru.telegram.bot.impl.state.";
+    private final static String startStateName = "StartState";
     private final ApplicationContext context;
-
-    Class<?> anyType = InputDirectionState.class;
 
     public StateBuilder(ApplicationContext context) {
         this.context = context;

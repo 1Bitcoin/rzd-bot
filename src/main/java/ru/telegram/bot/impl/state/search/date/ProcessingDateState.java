@@ -43,13 +43,13 @@ public class ProcessingDateState implements State {
             // Перевод в следующее состояние
             context.setState(stateBuilder.getBeanStateByClass(SearchTransition.INPUT_TRAIN_STATE.getState()));
             log.info("Состояние {} перевело пользователя {} в следующее состояние {}",
-                    SearchTransition.PROCESSING_DIRECTION_STATE.getState(), context.getChatId(), SearchTransition.INPUT_TRAIN_STATE.getState());
+                    SearchTransition.PROCESSING_ROUTE_STATE.getState(), context.getChatId(), SearchTransition.INPUT_TRAIN_STATE.getState());
 
         } else {
             // 2. Некорректное направление. Перевод пользователя в предыдущее состояние
-            context.setState(stateBuilder.getBeanStateByClass(SearchTransition.INPUT_DIRECTION_STATE.getState()));
+            context.setState(stateBuilder.getBeanStateByClass(SearchTransition.INPUT_ROUTE_STATE.getState()));
             log.info("Состояние {} перевело пользователя {} в предыдущее состояние {}",
-                    SearchTransition.PROCESSING_DIRECTION_STATE.getState(), context.getChatId(), SearchTransition.INPUT_DIRECTION_STATE.getState());
+                    SearchTransition.PROCESSING_ROUTE_STATE.getState(), context.getChatId(), SearchTransition.INPUT_ROUTE_STATE.getState());
         }
 
         return context.getState().show(context);
