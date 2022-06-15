@@ -9,7 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.telegram.bot.impl.exception.BusinessException;
 import ru.telegram.bot.impl.exception.IncorrectChatIdException;
-import ru.telegram.bot.impl.bot.context.UserContext;
+import ru.telegram.bot.impl.context.UserContext;
 import ru.telegram.bot.impl.handler.MessageHandler;
 
 /**
